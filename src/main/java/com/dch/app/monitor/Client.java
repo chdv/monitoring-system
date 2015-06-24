@@ -26,15 +26,14 @@ public class Client {
 
         setWorkerDelay(Integer.valueOf(JConfig.INSTANCE.getValue("client-delay")));
 
-        JConfig.INSTANCE.addConfigChangeListener("client-delay", new ConfigChangeListener() {
-            @Override
-            public void fieldChange(String newValue) {
-                long v = Long.valueOf(newValue);
-                future.cancel(true);
-                setWorkerDelay(Long.valueOf(newValue));
-                logger.debug("client delay updated");
-            }
-        });
+        JConfig.INSTANCE.addConfigChangeListener(
+                "client-delay",
+                newValue -> {
+                    long v = Long.valueOf(newValue);
+                    future.cancel(true);
+                    setWorkerDelay(Long.valueOf(newValue));
+                    logger.debug("client delay updated");
+                });
     }
 
     private void setWorkerDelay(long t) {

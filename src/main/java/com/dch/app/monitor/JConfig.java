@@ -58,11 +58,7 @@ public enum JConfig implements IConfigurationChangeListener {
         List<ConfigChangeListener> list = listenersMap.get(fieldName);
         if(list != null) {
             for(ConfigChangeListener listener : list) {
-                Runnable e = new Runnable() {
-                    public void run() {
-                        listener.fieldChange(newValue);
-                    }
-                };
+                Runnable e = () -> listener.fieldChange(newValue);
                 listenerPoolExecutor.execute(e);
             }
         }

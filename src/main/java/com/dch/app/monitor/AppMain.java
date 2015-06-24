@@ -46,15 +46,14 @@ public class AppMain {
         scheduler = Executors.newScheduledThreadPool(1);
         setStatWorkerDelay(Long.valueOf(JConfig.INSTANCE.getValue("stat-delay")));
 
-        JConfig.INSTANCE.addConfigChangeListener("stat-delay", new ConfigChangeListener() {
-            @Override
-            public void fieldChange(String newValue) {
-                long v = Long.valueOf(newValue);
-                future.cancel(true);
-                setStatWorkerDelay(Long.valueOf(newValue));
-                logger.debug("Scheduler delay updated");
-            }
-        });
+        JConfig.INSTANCE.addConfigChangeListener(
+                "stat-delay",
+                newValue -> {
+                    long v = Long.valueOf(newValue);
+                    future.cancel(true);
+                    setStatWorkerDelay(Long.valueOf(newValue));
+                    logger.debug("Scheduler delay updated");
+                });
 
         client = new Client(server);
 
@@ -105,13 +104,5 @@ public class AppMain {
         AppMain main = new AppMain();
         HttpLogServer server = new HttpLogServer(main);
         server.start();
-
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
     }
 }

@@ -47,23 +47,21 @@ public class Server {
                 10, 10, 0L, TimeUnit.MILLISECONDS,
                 rejectQueue, Executors.defaultThreadFactory());
 
-        JConfig.INSTANCE.addConfigChangeListener("pool-size", new ConfigChangeListener() {
-            @Override
-            public void fieldChange(String newValue) {
-                int val = Integer.valueOf(newValue);
-                service.setCorePoolSize(val);
-                logger.debug("ThreadPoolExecutor updated");
-            }
-        });
+        JConfig.INSTANCE.addConfigChangeListener(
+                "pool-size",
+                newValue -> {
+                    int val = Integer.valueOf(newValue);
+                    service.setCorePoolSize(val);
+                    logger.debug("ThreadPoolExecutor updated");
+                });
 
-        JConfig.INSTANCE.addConfigChangeListener("max-pool-size", new ConfigChangeListener() {
-            @Override
-            public void fieldChange(String newValue) {
-                int val = Integer.valueOf(newValue);
-                service.setMaximumPoolSize(val);
-                logger.debug("ThreadPoolExecutor updated");
-            }
-        });
+        JConfig.INSTANCE.addConfigChangeListener(
+                "max-pool-size",
+                newValue -> {
+                    int val = Integer.valueOf(newValue);
+                    service.setMaximumPoolSize(val);
+                    logger.debug("ThreadPoolExecutor updated");
+                });
     }
 
     private class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
@@ -113,12 +111,7 @@ public class Server {
         }
 
         public Runnable getRejectRunnable() {
-            return new Runnable() {
-                @Override
-                public void run() {
-                    runReject();
-                }
-            };
+            return TaskWorker.this::runReject;
         }
 
         public void runReject() {
