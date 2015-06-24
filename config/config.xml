@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations>
+    <configuration id="general" plugin="com.google.code.jconfig.reader.plugins.PropertyConfigurationPlugin">
+        <property key="pool-size" value="30" />
+        <property key="max-pool-size" value="30" />
+        <property key="stat-delay" value="3000" />
+        <property key="client-delay" value="5000" />
+        <property key="http-server-port" value="8081" />
+    </configuration>
+</configurations>
