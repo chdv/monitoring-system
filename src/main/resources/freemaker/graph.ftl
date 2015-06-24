@@ -21,7 +21,7 @@
 
             var options = {
                 title: '${key}',
-                hAxis: {title: '',  titleTextStyle: {color: '#333'}},
+                hAxis: {title: '${key}',  titleTextStyle: {color: '#333'}},
                 vAxis: {minValue: 0},
                 legend: { position: 'bottom' },
                 width:600,
