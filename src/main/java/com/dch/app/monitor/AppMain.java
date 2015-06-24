@@ -83,7 +83,7 @@ public class AppMain {
             ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
             map.put("system: total thread count", String.valueOf(threadBean.getThreadCount()));
 
-            logger.info("{}", map);
+            logger.debug("{}", map);
             addLog(map);
         }
     }
