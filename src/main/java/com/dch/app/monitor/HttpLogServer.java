@@ -48,14 +48,13 @@ public class HttpLogServer {
 
     public void start() throws IOException, MalformedURLException {
         int port = Integer.valueOf(JConfig.INSTANCE.getValue("http-server-port"));
-        String httpPath = "/info";
         httpServer = HttpServer.create(new InetSocketAddress(port), 0);
-        httpServer.createContext(httpPath, new InfoHandler());
+        httpServer.createContext("/info", new InfoHandler());
         httpServer.createContext("/graph", new GraphHandler());
         httpServer.setExecutor(null); // creates a default executor
         httpServer.start();
         String url1 = HOST + ':' + port + "/graph";
-        String url2 = HOST + ':' + port + httpPath;
+        String url2 = HOST + ':' + port + "/info";
         logger.debug("see web log at " + url2);
         logger.debug("see graph at " + url2);
         Desktop.getDesktop().browse(URI.create(url2));
